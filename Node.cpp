@@ -1,6 +1,8 @@
 #include "Node.h"
 
+#include <QFile>
 #include <QJsonArray>
+#include <QJsonDocument>
 
 Node::Node(Node *parent)
     : x_(-1), y_(-1),
@@ -91,28 +93,75 @@ void Node::writeJson(QJsonObject &json) const
     json["children"] = childArray;
 }
 
+void Node::loadJson(const QString &filename)
+{
+    QFile loadFile(filename);
+    loadFile.open(QIODevice::ReadOnly);
+    QByteArray loadData = loadFile.readAll();
+    QJsonDocument loadDoc(QJsonDocument::fromJson(loadData));
+    readJson(loadDoc.object());
+    loadFile.close();}
+
+void Node::saveJson(const QString &filename) const
+{
+    QJsonObject treeObject;
+    writeJson(treeObject);
+    QFile saveFile(filename);
+    saveFile.open(QIODevice::WriteOnly);
+    saveFile.write(QJsonDocument(treeObject).toJson());
+    saveFile.close();
+}
+
 void Node::layout()
 {
     int x(0), y(0);
-    layout_traverse(this, x, y);
+    layoutTraverse(this, x, y);
 }
 
-void Node::layout_traverse(Node *n, int &x, int &y)
+void Node::layoutTraverse(Node *n, int &x, int &y)
 {
     y++;
 
     int mid = n->numChildren() / 2;
     for (int l = 0; l < mid; l++)
-        layout_traverse(n->child(l), x, y);
-    layout_visit(n, x, y);
+        layoutTraverse(n->child(l), x, y);
+    layoutVisit(n, x, y);
     for (int r = mid; r < n->numChildren(); r++)
-        layout_traverse(n->child(r), x, y);
+        layoutTraverse(n->child(r), x, y);
 
     y--;
 }
 
-void Node::layout_visit(Node *t, int &x, int &y)
+void Node::layoutVisit(Node *n, int &x, int &y)
 {
-    t->setX(++x);
-    t->setY(y);
+    n->setX(++x);
+    n->setY(y);
+}
+
+void Node::createTree(Node *parent)
+{
+    Node *l1 = new Node(parent);
+    l1->setName("l1");
+    l1->setNodeType(Node::NodeType::Float);
+    l1->setValue(1.234);
+
+    Node *r1 = new Node(parent);
+    r1->setName("r1");
+    r1->setNodeType(Node::NodeType::Float);
+    r1->setValue(4.321);
+
+    Node *ll1 = new Node(l1);
+    ll1->setName("ll1");
+    ll1->setNodeType(Node::NodeType::String);
+    ll1->setValue("foo");
+
+    Node *rl1 = new Node(l1);
+    rl1->setName("rl1");
+    rl1->setNodeType(Node::NodeType::String);
+    rl1->setValue("bar");
+
+    Node *rrl1 = new Node(rl1);
+    rrl1->setName("rrl1");
+    rrl1->setNodeType(Node::NodeType::String);
+    rrl1->setValue("baz");
 }

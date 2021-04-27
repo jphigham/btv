@@ -52,6 +52,10 @@ public:
     void readJson(const QJsonObject &);
     void writeJson(QJsonObject &) const;
 
+    void loadJson(const QString &);
+    void saveJson(const QString &) const;
+
+    static void createTree(Node *);
     void layout();
 
 private:
@@ -71,6 +75,6 @@ private:
     QColor color_;
     QVariant value_;
 
-    void layout_traverse(Node *, int &, int &);
-    void layout_visit(Node *, int &, int &);
+    void layoutTraverse(Node *, int &, int &);
+    void layoutVisit(Node *, int &, int &);
 };

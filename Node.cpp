@@ -39,16 +39,16 @@ void Node::readJson(const QJsonObject &json)
     if (json.contains("id") && json["id"].isString())
         setId(json["id"].toString());
 
-    if (json.contains("nodetype") && json["nodetype"].isString())
+    if (json.contains("nodetype") && json["nodetype"].isDouble())
         setNodeType(static_cast<NodeType>(json["nodetype"].toInt()));
 
-    if (json.contains("x") && json["x"].isString())
+    if (json.contains("x") && json["x"].isDouble())
         setX(json["x"].toInt());
 
-    if (json.contains("y") && json["y"].isString())
+    if (json.contains("y") && json["y"].isDouble())
         setY(json["y"].toInt());
 
-    if (json.contains("nodetype") && json["nodetype"].isString()
+    if (json.contains("nodetype") && json["nodetype"].isDouble()
             && json.contains("value")) {
         setNodeType(static_cast<NodeType>(json["nodetype"].toInt()));
         switch (nodeType_) {
@@ -100,7 +100,8 @@ void Node::loadJson(const QString &filename)
     QByteArray loadData = loadFile.readAll();
     QJsonDocument loadDoc(QJsonDocument::fromJson(loadData));
     readJson(loadDoc.object());
-    loadFile.close();}
+    loadFile.close();
+}
 
 void Node::saveJson(const QString &filename) const
 {

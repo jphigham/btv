@@ -11,17 +11,17 @@ TreeWindow::TreeWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     tree_ = new Node();
-    tree_->setName("root");
-    tree_->setNodeType(Node::NodeType::String);
-    tree_->setValue("foobarbaz");
 
-    if (false)
+    if (true)
     {
         tree_->loadJson("load.json");
-        tree_->saveJson("load_check.json");
+        tree_->saveJson("load_verify.json");
     }
     else
     {
+        tree_->setName("root");
+        tree_->setNodeType(Node::NodeType::String);
+        tree_->setValue("foobarbaz");
         Node::createTree(tree_);
         tree_->layout();
         tree_->saveJson("save.json");
@@ -46,6 +46,6 @@ TreeWindow::~TreeWindow()
 
 void TreeWindow::closeEvent(QCloseEvent *e)
 {
-    tree_->saveJson("save_check.json");
+    tree_->saveJson("save_verify.json");
     QWidget::closeEvent(e);
 }

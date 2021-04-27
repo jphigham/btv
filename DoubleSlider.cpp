@@ -21,7 +21,10 @@ void DoubleSlider::setDoubleRange(double doubleMinimum, double doubleMaximum)
 
 void DoubleSlider::setDoubleValue(double doubleValue)
 {
-    emit doubleValueChanged(doubleValue);
+    if (doubleMinimum_ < doubleValue && doubleValue < doubleMaximum_) {
+        double frac = (doubleValue - doubleMinimum_) / (doubleMaximum_ - doubleMinimum_);
+        setValue(minimum() + frac * (maximum() - minimum()));
+    }
 }
 
 double DoubleSlider::doubleValue() const

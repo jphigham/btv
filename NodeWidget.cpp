@@ -28,7 +28,7 @@ NodeWidget::NodeWidget(Node *node, QWidget *parent)
     case Node::NodeType::Float:
         doubleSlider_ = new DoubleSlider(this);
         doubleSlider_->setRange(0,100);
-        doubleSlider_->setDoubleRange(-1000.0, 1000.0);
+        doubleSlider_->setDoubleRange(-10.0, 10.0);
         doubleSlider_->setDoubleValue(node->value().toDouble());
         connect(doubleSlider_, &DoubleSlider::doubleValueChanged, [=] (double dv) {
             node_->setValue(dv);

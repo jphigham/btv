@@ -143,12 +143,12 @@ void Node::createTree(Node *parent)
     Node *l1 = new Node(parent);
     l1->setName("l1");
     l1->setNodeType(Node::NodeType::Float);
-    l1->setValue(1.234);
+    l1->setValue(4.57);
 
     Node *r1 = new Node(parent);
     r1->setName("r1");
     r1->setNodeType(Node::NodeType::Float);
-    r1->setValue(4.321);
+    r1->setValue(-8.2);
 
     Node *ll1 = new Node(l1);
     ll1->setName("ll1");

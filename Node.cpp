@@ -90,3 +90,29 @@ void Node::writeJson(QJsonObject &json) const
     }
     json["children"] = childArray;
 }
+
+void Node::layout()
+{
+    int x(0), y(0);
+    layout_traverse(this, x, y);
+}
+
+void Node::layout_traverse(Node *n, int &x, int &y)
+{
+    y++;
+
+    int mid = n->numChildren() / 2;
+    for (int l = 0; l < mid; l++)
+        layout_traverse(n->child(l), x, y);
+    layout_visit(n, x, y);
+    for (int r = mid; r < n->numChildren(); r++)
+        layout_traverse(n->child(r), x, y);
+
+    y--;
+}
+
+void Node::layout_visit(Node *t, int &x, int &y)
+{
+    t->setX(++x);
+    t->setY(y);
+}

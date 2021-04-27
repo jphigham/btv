@@ -34,25 +34,6 @@ void createTree(Node *parent)
     rrl1->setValue("baz");
 }
 
-void visit(Node *t, int &x, int &y)
-{
-    t->setX(++x);
-    t->setY(y);
-}
-
-void traverse(Node *t, int &x, int &y)
-{
-    y++;
-
-    if (t->numChildren() > 0)
-        traverse(t->child(0), x, y);
-    visit(t, x, y);
-    if (t->numChildren() > 1)
-        traverse(t->child(1), x, y);
-
-    y--;
-}
-
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
@@ -77,8 +58,7 @@ int main(int argc, char *argv[])
     else
     {
         createTree(root);
-        int x(0), y(0);
-        traverse(root, x, y);
+        root->layout();
         QJsonObject treeObject;
         root->writeJson(treeObject);
         QFile saveFile("save.json");

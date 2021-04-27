@@ -50,7 +50,9 @@ public:
     const QVector<Node *> children() const { return children_; }
 
     void readJson(const QJsonObject &);
-    void writeJson(QJsonObject &) const;;
+    void writeJson(QJsonObject &) const;
+
+    void layout();
 
 private:
 
@@ -68,4 +70,7 @@ private:
     QVector<Node *> children_;
     QColor color_;
     QVariant value_;
+
+    void layout_traverse(Node *, int &, int &);
+    void layout_visit(Node *, int &, int &);
 };

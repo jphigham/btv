@@ -20,7 +20,11 @@ find_package(Qt5 ${QT_VERSION} COMPONENTS Core Gui Widgets REQUIRED)
 
 add_executable(btv
     main.cpp
+    DoubleSlider.cpp
     Node.cpp
+    NodeWidget.cpp
+    TreeWidget.cpp
+    TreeWindow.cpp
 )
 
 target_link_libraries(btv Qt::Core)

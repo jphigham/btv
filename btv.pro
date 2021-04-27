@@ -1,4 +1,5 @@
 QT += gui widgets
 
-HEADERS += Node.h
-SOURCES += Node.cpp main.cpp
+HEADERS += DoubleSlider.h Node.h NodeWidget.h TreeWidget.h
+
+SOURCES += DoubleSlider.cpp Node.cpp NodeWidget.cpp TreeWidget.cpp TreeWindow.cpp main.cpp

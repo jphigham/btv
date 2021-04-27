@@ -7,7 +7,7 @@
 #include "NodeWidget.h"
 
 TreeWidget::TreeWidget(QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent), treeSize_(4, 4)
 {
 
 }
@@ -17,13 +17,21 @@ TreeWidget::~TreeWidget()
 
 }
 
+QSize TreeWidget::sizeHint() const
+{
+    return QSize(NodeWidget::NODE_WIDTH * (treeSize_.width() + 1),
+            NodeWidget::NODE_HEIGHT * 2 * treeSize_.height());
+}
+
 void TreeWidget::makeNodeWidget(Node *t)
 {
     NodeWidget *nodeWidget = new NodeWidget(t, this);
-    nodeWidget->setGeometry(10, 10, 90, 90);
-    nodeWidget->move(100 * t->x(), 200 * t->y());
     nodes_.append(nodeWidget);
     nodeMap_[t] = nodeWidget;
+
+    nodeWidget->move(NodeWidget::NODE_WIDTH * t->x(), NodeWidget::NODE_HEIGHT * 2 * t->y());
+    treeSize_ = QSize(qMax(treeSize_.width(), t->x()), qMax(treeSize_.height(), t->y()));
+    updateGeometry();
 }
 
 void TreeWidget::makeTreeTraverse(Node *n)
@@ -45,6 +53,7 @@ void TreeWidget::setTree(Node *node)
 void TreeWidget::paintEvent(QPaintEvent *e)
 {
     QPainter p(this);
+    p.setRenderHint(QPainter::Antialiasing);
 
     p.setBrush(QColor("lightgray"));
     p.drawRect(0,0,width(),height());

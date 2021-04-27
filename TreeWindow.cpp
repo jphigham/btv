@@ -1,6 +1,8 @@
 #include "TreeWindow.h"
 
 #include <QCloseEvent>
+#include <QScrollArea>
+#include <QVBoxLayout>
 
 #include "Node.h"
 #include "TreeWidget.h"
@@ -8,28 +10,33 @@
 TreeWindow::TreeWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    Node *root = new Node();
-    root->setName("root");
-    root->setNodeType(Node::NodeType::String);
-    root->setValue("foobarbaz");
+    tree_ = new Node();
+    tree_->setName("root");
+    tree_->setNodeType(Node::NodeType::String);
+    tree_->setValue("foobarbaz");
 
     if (false)
     {
-        root->loadJson("load.json");
-        root->saveJson("load_check.json");
+        tree_->loadJson("load.json");
+        tree_->saveJson("load_check.json");
     }
     else
     {
-        Node::createTree(root);
-        root->layout();
-        root->saveJson("save.json");
+        Node::createTree(tree_);
+        tree_->layout();
+        tree_->saveJson("save.json");
     }
 
-    tree_ = root;
-
-    treeWidget_ = new TreeWidget(this);
+    QScrollArea *scrollArea = new QScrollArea;
+    treeWidget_ = new TreeWidget;
     treeWidget_->setTree(tree_);
-    setCentralWidget(treeWidget_);
+    scrollArea->setWidget(treeWidget_);
+
+    QWidget *centralWidget = new QWidget;
+    QVBoxLayout *centralLayout = new QVBoxLayout;
+    centralLayout->addWidget(scrollArea, 1);
+    centralWidget->setLayout(centralLayout);
+    setCentralWidget(centralWidget);
 }
 
 TreeWindow::~TreeWindow()

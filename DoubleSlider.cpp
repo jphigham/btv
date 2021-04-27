@@ -1,7 +1,5 @@
 #include "DoubleSlider.h"
 
-#include <QDebug>
-
 DoubleSlider::DoubleSlider(QWidget *parent)
     : QSlider(Qt::Horizontal, parent)
 {

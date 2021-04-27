@@ -14,6 +14,6 @@ public:
 protected:
     virtual void closeEvent(QCloseEvent *) override;
 private:
-    TreeWidget *treeWidget_;
     Node *tree_;
+    TreeWidget *treeWidget_;
 };

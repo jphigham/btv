@@ -114,7 +114,7 @@ void Node::saveJson(const QString &filename) const
 
 void Node::layout()
 {
-    int x(0), y(0);
+    int x(-1), y(-1);
     layoutTraverse(this, x, y);
 }
 

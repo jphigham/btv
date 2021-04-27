@@ -150,6 +150,21 @@ void Node::createTree(Node *parent)
     r1->setNodeType(Node::NodeType::Float);
     r1->setValue(-8.2);
 
+    Node *rr1 = new Node(r1);
+    rr1->setName("rr1");
+    rr1->setNodeType(Node::NodeType::Float);
+    rr1->setValue(2.2);
+
+    Node *lrr1 = new Node(rr1);
+    lrr1->setName("lrr1");
+    lrr1->setNodeType(Node::NodeType::String);
+    lrr1->setValue("centerfield");
+
+    Node *rrr1 = new Node(rr1);
+    rrr1->setName("rrr1");
+    rrr1->setNodeType(Node::NodeType::String);
+    rrr1->setValue("rightfield");
+
     Node *ll1 = new Node(l1);
     ll1->setName("ll1");
     ll1->setNodeType(Node::NodeType::String);

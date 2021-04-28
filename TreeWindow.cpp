@@ -13,7 +13,7 @@
 #include "TreeWidget.h"
 
 TreeWindow::TreeWindow(QWidget *parent)
-    : QMainWindow(parent), tree_(nullptr)
+    : QMainWindow(parent)
 {
     setWindowTitle("btv");
 
@@ -37,9 +37,11 @@ TreeWindow::~TreeWindow()
 
 void TreeWindow::open()
 {
-    QString fileName = QFileDialog::getOpenFileName(this);
-    if (!fileName.isEmpty())
-        loadFile(fileName);
+	if (!currentFile_.isEmpty())
+		close();
+    QString openFileName = QFileDialog::getOpenFileName(this, "Open tree file", "", "*.json");
+    if (!openFileName.isEmpty())
+        loadFile(openFileName);
 }
 
 void TreeWindow::create()
@@ -59,12 +61,19 @@ bool TreeWindow::save()
 
 bool TreeWindow::saveAs()
 {
+#if 1
+    QString saveFileName = QFileDialog::getSaveFileName(this, "Save tree file", "", "*.json");
+    if (saveFileName.isEmpty())
+    	return false;
+    currentFile_ = saveFileName;
+#else
     QFileDialog dialog(this);
     dialog.setWindowModality(Qt::WindowModal);
     dialog.setAcceptMode(QFileDialog::AcceptSave);
     if (dialog.exec() != QDialog::Accepted)
         return false;
     currentFile_ = dialog.selectedFiles().first();
+#endif
     setWindowTitle("btv - " + currentFile_);
     return saveFile(currentFile_);
 }
@@ -112,24 +121,23 @@ void TreeWindow::createActions()
 
 bool TreeWindow::loadFile(const QString &filename)
 {
-    tree_ = new Node();
-    if (tree_->loadJson(filename)) {
-        treeWidget_->setTree(tree_);
+    Node *tree = new Node();
+    if (tree->loadJson(filename)) {
+        treeWidget_->setTree(tree);
         treeWidget_->update();
         setWindowTitle(QString("btv - %1").arg(filename));
         currentFile_ = filename;
         return true;
     } else {
-        delete tree_;
-        tree_ = nullptr;
+    	delete tree;
         return false;
     }
 }
 
 bool TreeWindow::saveFile(const QString &filename) const
 {
-    if (tree_) {
-        return tree_->saveJson(filename);
+    if (treeWidget_ != nullptr && treeWidget_->tree()) {
+        return treeWidget_->tree()->saveJson(filename);
     } else {
         qWarning("No tree to save");
         return false;

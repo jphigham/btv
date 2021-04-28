@@ -25,7 +25,6 @@ private slots:
     bool saveAs();
     void close();
 private:
-    Node *tree_;
     TreeWidget *treeWidget_;
     QString currentFile_;
     void createActions();

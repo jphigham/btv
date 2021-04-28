@@ -20,7 +20,7 @@ TreeWidget::~TreeWidget()
 QSize TreeWidget::sizeHint() const
 {
     return QSize(NodeWidget::NODE_WIDTH * (treeSize_.width() + 1),
-            NodeWidget::NODE_HEIGHT * 2 * treeSize_.height());
+            NodeWidget::NODE_HEIGHT * 2 * (treeSize_.height() + 1));
 }
 
 void TreeWidget::makeNodeWidget(Node *t)
@@ -28,10 +28,6 @@ void TreeWidget::makeNodeWidget(Node *t)
     NodeWidget *nodeWidget = new NodeWidget(t, this);
     nodes_.append(nodeWidget);
     nodeMap_[t] = nodeWidget;
-
-    nodeWidget->move(NodeWidget::NODE_WIDTH * t->x(), NodeWidget::NODE_HEIGHT * 2 * t->y());
-    treeSize_ = QSize(qMax(treeSize_.width(), t->x()), qMax(treeSize_.height(), t->y()));
-    updateGeometry();
 }
 
 void TreeWidget::makeTreeTraverse(Node *n)
@@ -44,10 +40,29 @@ void TreeWidget::makeTreeTraverse(Node *n)
         makeTreeTraverse(n->child(r));
 }
 
-void TreeWidget::setTree(Node *node)
+void TreeWidget::setTree(Node *tree)
 {
-    tree_ = node;
-    makeTreeTraverse(node);
+    tree_ = tree;
+    makeTreeTraverse(tree);
+    for (auto nodeWidget : findChildren<NodeWidget *>()) {
+        Node *node = nodeWidget->node();
+        treeSize_ = QSize(qMax(treeSize_.width(), node->x()),
+                qMax(treeSize_.height(), node->y()));
+        resize(sizeHint());
+        nodeWidget->move(NodeWidget::NODE_WIDTH * node->x(),
+                NodeWidget::NODE_HEIGHT * 2 * node->y());
+        nodeWidget->show();
+    }
+    updateGeometry();
+}
+
+void TreeWidget::close()
+{
+    for (auto nodeWidget : findChildren<NodeWidget *>())
+        delete nodeWidget;
+    delete tree_;
+    tree_ = nullptr;
+    update();
 }
 
 void TreeWidget::paintEvent(QPaintEvent *e)

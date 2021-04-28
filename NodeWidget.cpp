@@ -1,9 +1,11 @@
 #include "NodeWidget.h"
 
 #include <QColor>
+#include <QFont>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPainter>
+#include <QPalette>
 #include <QSpacerItem>
 #include <QVBoxLayout>
 
@@ -16,9 +18,15 @@ NodeWidget::NodeWidget(Node *node, QWidget *parent)
     QVBoxLayout *layout = new QVBoxLayout(this);
 
     name_ = new QLabel(this);
+
+    QFont nameFont = name_->font();
+    nameFont.setPointSizeF(nameFont.pointSizeF()*1.2);
+    name_->setFont(nameFont);
+
     QPalette palette = name_->palette();
     palette.setColor(QPalette::WindowText, QColor("white"));
     name_->setPalette(palette);
+
     name_->setText(node->name());
 
     layout->addWidget(name_, 0, Qt::AlignHCenter);

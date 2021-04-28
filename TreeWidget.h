@@ -18,6 +18,7 @@ public:
     virtual ~TreeWidget();
     virtual QSize sizeHint() const override;
     void setTree(Node *);
+    void close();
 protected:
     virtual void paintEvent(QPaintEvent *) override;
 private:

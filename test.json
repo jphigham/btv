@@ -1,0 +1,90 @@
+{
+    "children": [
+        {
+            "children": [
+                {
+                    "children": [
+                    ],
+                    "id": "{0a248af7-8036-4fdf-91ed-ad7c623c8cee}",
+                    "name": "ll1",
+                    "nodetype": 0,
+                    "value": "foo",
+                    "x": 0,
+                    "y": 2
+                },
+                {
+                    "children": [
+                        {
+                            "children": [
+                            ],
+                            "id": "{7a6242d0-672f-41f6-af3c-175347962cbf}",
+                            "name": "rrl1",
+                            "nodetype": 0,
+                            "value": "baz",
+                            "x": 3,
+                            "y": 3
+                        }
+                    ],
+                    "id": "{678ae63f-dd20-4fec-99fc-f58860514daa}",
+                    "name": "rl1",
+                    "nodetype": 0,
+                    "value": "bar",
+                    "x": 2,
+                    "y": 2
+                }
+            ],
+            "id": "{77b59dd7-111f-4d77-8eb1-b1374056a844}",
+            "name": "l1",
+            "nodetype": 1,
+            "value": "4.57",
+            "x": 1,
+            "y": 1
+        },
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [
+                            ],
+                            "id": "{44cfac73-c91b-47d1-b3dc-76451d280a6f}",
+                            "name": "lrr1",
+                            "nodetype": 0,
+                            "value": "centerfield",
+                            "x": 6,
+                            "y": 3
+                        },
+                        {
+                            "children": [
+                            ],
+                            "id": "{2b7770eb-d66c-4837-b1bd-a9aff5cd62e4}",
+                            "name": "rrr1",
+                            "nodetype": 0,
+                            "value": "rightfield",
+                            "x": 8,
+                            "y": 3
+                        }
+                    ],
+                    "id": "{e93b4449-7416-4c5c-a812-8ab0f3b537d5}",
+                    "name": "rr1",
+                    "nodetype": 1,
+                    "value": "2.2",
+                    "x": 7,
+                    "y": 2
+                }
+            ],
+            "id": "{cd47b446-57bf-4445-ab3a-ce503dcc0ebc}",
+            "name": "r1",
+            "nodetype": 1,
+            "value": "-8.2",
+            "x": 5,
+            "y": 1
+        }
+    ],
+    "id": "{cfb97c44-65dd-4835-ba8f-407232e8812a}",
+    "name": "root",
+    "nodetype": 0,
+    "value": "foobarbaz",
+    "x": 4,
+    "y": 0
+}

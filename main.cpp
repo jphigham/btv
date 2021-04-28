@@ -10,5 +10,12 @@ int main(int argc, char *argv[])
 
     TreeWindow w;
 	w.show();
+    if (args.length() > 1)
+        w.loadFile(args[1]);
+#if 0
+    else
+        w.loadFile("test.json");
+#endif
+
 	return app.exec();
 }

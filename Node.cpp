@@ -93,24 +93,32 @@ void Node::writeJson(QJsonObject &json) const
     json["children"] = childArray;
 }
 
-void Node::loadJson(const QString &filename)
+bool Node::loadJson(const QString &filename)
 {
     QFile loadFile(filename);
-    loadFile.open(QIODevice::ReadOnly);
+    if (!loadFile.open(QIODevice::ReadOnly)) {
+        qWarning("Couldn't open json load file.");
+        return false;
+    }
     QByteArray loadData = loadFile.readAll();
     QJsonDocument loadDoc(QJsonDocument::fromJson(loadData));
     readJson(loadDoc.object());
     loadFile.close();
+    return true;
 }
 
-void Node::saveJson(const QString &filename) const
+bool Node::saveJson(const QString &filename) const
 {
     QJsonObject treeObject;
     writeJson(treeObject);
     QFile saveFile(filename);
-    saveFile.open(QIODevice::WriteOnly);
+    if (!saveFile.open(QIODevice::WriteOnly)) {
+        qWarning("Couldn't open json save file.");
+        return false;
+    }
     saveFile.write(QJsonDocument(treeObject).toJson());
     saveFile.close();
+    return true;
 }
 
 void Node::layout()
@@ -141,43 +149,48 @@ void Node::layoutVisit(Node *n, int &x, int &y)
 
 void Node::createTree(Node *parent)
 {
-    Node *l1 = new Node(parent);
-    l1->setName("l1");
-    l1->setNodeType(Node::NodeType::Float);
-    l1->setValue(4.57);
+    Node *A1 = new Node(parent);
+    A1->setName("A1");
+    A1->setNodeType(Node::NodeType::Float);
+    A1->setValue(4.57);
 
-    Node *r1 = new Node(parent);
-    r1->setName("r1");
-    r1->setNodeType(Node::NodeType::Float);
-    r1->setValue(-8.2);
+    Node *A2 = new Node(A1);
+    A2->setName("A2");
+    A2->setNodeType(Node::NodeType::String);
+    A2->setValue("foo");
 
-    Node *rr1 = new Node(r1);
-    rr1->setName("rr1");
-    rr1->setNodeType(Node::NodeType::Float);
-    rr1->setValue(2.2);
+    Node *B2 = new Node(A1);
+    B2->setName("B2");
+    B2->setNodeType(Node::NodeType::String);
+    B2->setValue("bar");
 
-    Node *lrr1 = new Node(rr1);
-    lrr1->setName("lrr1");
-    lrr1->setNodeType(Node::NodeType::String);
-    lrr1->setValue("centerfield");
+    Node *B1 = new Node(parent);
+    B1->setName("B1");
+    B1->setNodeType(Node::NodeType::Float);
+    B1->setValue(-8.2);
 
-    Node *rrr1 = new Node(rr1);
-    rrr1->setName("rrr1");
-    rrr1->setNodeType(Node::NodeType::String);
-    rrr1->setValue("rightfield");
+    Node *C2 = new Node(B1);
+    C2->setName("C2");
+    C2->setNodeType(Node::NodeType::Float);
+    C2->setValue(2.2);
 
-    Node *ll1 = new Node(l1);
-    ll1->setName("ll1");
-    ll1->setNodeType(Node::NodeType::String);
-    ll1->setValue("foo");
+    Node *A3 = new Node(B2);
+    A3->setName("A3");
+    A3->setNodeType(Node::NodeType::String);
+    A3->setValue("baz");
 
-    Node *rl1 = new Node(l1);
-    rl1->setName("rl1");
-    rl1->setNodeType(Node::NodeType::String);
-    rl1->setValue("bar");
+    Node *B3 = new Node(C2);
+    B3->setName("B3");
+    B3->setNodeType(Node::NodeType::String);
+    B3->setValue("centerfield");
 
-    Node *rrl1 = new Node(rl1);
-    rrl1->setName("rrl1");
-    rrl1->setNodeType(Node::NodeType::String);
-    rrl1->setValue("baz");
+    Node *C3 = new Node(C2);
+    C3->setName("C3");
+    C3->setNodeType(Node::NodeType::String);
+    C3->setValue("rightfield");
+
+    Node *A4 = new Node(B3);
+    A4->setName("A4");
+    A4->setNodeType(Node::NodeType::String);
+    A4->setValue("dungeon");
 }

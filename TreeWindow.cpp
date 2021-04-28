@@ -4,6 +4,7 @@
 #include <QCloseEvent>
 #include <QCoreApplication>
 #include <QFileDialog>
+#include <QMenu>
 #include <QScrollArea>
 #include <QVBoxLayout>
 
@@ -51,6 +52,16 @@ void TreeWindow::create()
     treeWidget_->update();
 }
 
+void TreeWindow::addString()
+{
+    treeWidget_->addStringChild(contextPos_);
+}
+
+void TreeWindow::addDouble()
+{
+    treeWidget_->addDoubleChild(contextPos_);
+}
+
 bool TreeWindow::save()
 {
     if (currentFile_.isEmpty()) {
@@ -88,6 +99,14 @@ void TreeWindow::createActions()
     connect(createAction, &QAction::triggered, this, &TreeWindow::create);
     addAction(createAction);
 
+    QAction *addStringAction = new QAction("Add string child", this);
+    connect(addStringAction, &QAction::triggered, this, &TreeWindow::addString);
+    addAction(addStringAction);
+
+    QAction *addDoubleAction = new QAction("Add float child", this);
+    connect(addDoubleAction, &QAction::triggered, this, &TreeWindow::addDouble);
+    addAction(addDoubleAction);
+
     QAction *saveAction = new QAction("&Save", this);
     saveAction->setShortcuts(QKeySequence::Save);
     connect(saveAction, &QAction::triggered, this, &TreeWindow::save);
@@ -107,8 +126,6 @@ void TreeWindow::createActions()
     quitAction->setShortcuts(QKeySequence::Quit);
     connect(quitAction, &QAction::triggered, this, &QCoreApplication::quit);
     addAction(quitAction);
-
-    setContextMenuPolicy(Qt::ActionsContextMenu);
 }
 
 bool TreeWindow::loadFile(const QString &filename)
@@ -147,7 +164,15 @@ Node *TreeWindow::createTree()
     return root;
 }
 
+void TreeWindow::contextMenuEvent(QContextMenuEvent *e)
+{
+    contextPos_ = QCursor::pos();
+    QMenu contextMenu("btv", this);
+    contextMenu.addActions(actions());
+    contextMenu.exec(mapToGlobal(e->pos()));
+}
+
 void TreeWindow::closeEvent(QCloseEvent *e)
 {
-    QWidget::closeEvent(e);
+    QMainWindow::closeEvent(e);
 }

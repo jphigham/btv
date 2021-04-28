@@ -1,6 +1,7 @@
 #include "TreeWidget.h"
 
 #include <QColor>
+#include <QInputDialog>
 #include <QPainter>
 
 #include "Node.h"
@@ -23,11 +24,12 @@ QSize TreeWidget::sizeHint() const
             NodeWidget::NODE_HEIGHT * 2 * (treeSize_.height() + 1));
 }
 
-void TreeWidget::makeNodeWidget(Node *t)
+NodeWidget *TreeWidget::makeNodeWidget(Node *t)
 {
     NodeWidget *nodeWidget = new NodeWidget(t, this);
     nodes_.append(nodeWidget);
     nodeMap_[t] = nodeWidget;
+    return nodeWidget;
 }
 
 void TreeWidget::makeTreeTraverse(Node *n)
@@ -45,15 +47,56 @@ void TreeWidget::setTree(Node *tree)
     tree_ = tree;
     makeTreeTraverse(tree);
     for (auto nodeWidget : findChildren<NodeWidget *>()) {
-        Node *node = nodeWidget->node();
-        treeSize_ = QSize(qMax(treeSize_.width(), node->x()),
-                qMax(treeSize_.height(), node->y()));
-        resize(sizeHint());
-        nodeWidget->move(NodeWidget::NODE_WIDTH * node->x(),
-                NodeWidget::NODE_HEIGHT * 2 * node->y());
-        nodeWidget->show();
+        updateTree(nodeWidget);
     }
     updateGeometry();
+}
+
+void TreeWidget::updateTree(NodeWidget *nodeWidget)
+{
+    Node *node = nodeWidget->node();
+    treeSize_ = QSize(qMax(treeSize_.width(), node->x()),
+            qMax(treeSize_.height(), node->y()));
+    resize(sizeHint());
+    nodeWidget->move(NodeWidget::NODE_WIDTH * node->x(),
+            NodeWidget::NODE_HEIGHT * 2 * node->y());
+    nodeWidget->show();
+
+}
+
+void TreeWidget::addStringChild(const QPoint &pos)
+{
+    for (auto nodeWidget : findChildren<NodeWidget *>())
+        if (nodeWidget->rect().contains(nodeWidget->mapFromGlobal(pos)))
+            addChild(nodeWidget, Node::NodeType::String);
+}
+
+void TreeWidget::addDoubleChild(const QPoint &pos)
+{
+    for (auto nodeWidget : findChildren<NodeWidget *>())
+        if (nodeWidget->rect().contains(nodeWidget->mapFromGlobal(pos)))
+            addChild(nodeWidget, Node::NodeType::Float);
+}
+
+void TreeWidget::addChild(NodeWidget *nodeWidget, int nodeType)
+{
+    Node *node = nodeWidget->node();
+    if (node->numChildren() >= node->maxChildren())
+        return;
+    bool ok;
+    QString name = QInputDialog::getText(nodeWidget,
+            "New child", "Name:", QLineEdit::Normal, QString(), &ok);
+    if (ok && !name.isEmpty()) {
+        Node *child = new Node(node);
+        child->setName(name);
+        child->setNodeType(static_cast<Node::NodeType>(nodeType));
+        tree_->layout();
+        makeNodeWidget(child);
+        for (auto nodeWidget : findChildren<NodeWidget *>()) {
+            updateTree(nodeWidget);
+        }
+        update();
+    }
 }
 
 void TreeWidget::close()

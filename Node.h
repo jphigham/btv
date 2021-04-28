@@ -43,6 +43,7 @@ public:
     Node *parent(int p) { return parents_[p]; }
     const QVector<Node *> parents() const { return parents_; }
 
+    int maxChildren() const { return maxChildren_; }
     bool hasChildren() const { return !children_.empty(); }
     int numChildren() const { return children_.count(); }
     const Node *child(int c) const { return children_[c]; }

@@ -7,7 +7,7 @@
 #include "NodeWidget.h"
 
 TreeWidget::TreeWidget(QWidget *parent)
-    : QWidget(parent), treeSize_(4, 4)
+    : QWidget(parent), tree_(nullptr), treeSize_(4, 4)
 {
 
 }
@@ -60,8 +60,10 @@ void TreeWidget::close()
 {
     for (auto nodeWidget : findChildren<NodeWidget *>())
         delete nodeWidget;
-    delete tree_;
-    tree_ = nullptr;
+    if (tree_) {
+        delete tree_;
+        tree_ = nullptr;
+    }
     update();
 }
 

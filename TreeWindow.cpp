@@ -46,6 +46,7 @@ void TreeWindow::open()
 
 void TreeWindow::create()
 {
+    close();
     treeWidget_->setTree(TreeWindow::createTree());
     treeWidget_->update();
 }
@@ -61,19 +62,10 @@ bool TreeWindow::save()
 
 bool TreeWindow::saveAs()
 {
-#if 1
     QString saveFileName = QFileDialog::getSaveFileName(this, "Save tree file", "", "*.json");
     if (saveFileName.isEmpty())
     	return false;
     currentFile_ = saveFileName;
-#else
-    QFileDialog dialog(this);
-    dialog.setWindowModality(Qt::WindowModal);
-    dialog.setAcceptMode(QFileDialog::AcceptSave);
-    if (dialog.exec() != QDialog::Accepted)
-        return false;
-    currentFile_ = dialog.selectedFiles().first();
-#endif
     setWindowTitle("btv - " + currentFile_);
     return saveFile(currentFile_);
 }

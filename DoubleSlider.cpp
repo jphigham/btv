@@ -34,5 +34,6 @@ double DoubleSlider::doubleValue() const
 void DoubleSlider::intValueChanged(int)
 {
     emit doubleValueChanged(doubleValue());
+    setToolTip(QString("%1").arg(doubleValue()));
 }
 

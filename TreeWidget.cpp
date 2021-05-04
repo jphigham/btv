@@ -64,6 +64,14 @@ void TreeWidget::updateTree(NodeWidget *nodeWidget)
 
 }
 
+NodeWidget *TreeWidget::nodeAtPos(const QPoint &pos) const
+{
+    for (auto nodeWidget : findChildren<NodeWidget *>())
+        if (nodeWidget->rect().contains(nodeWidget->mapFromGlobal(pos)))
+            return nodeWidget;
+    return nullptr;
+}
+
 void TreeWidget::addStringChild(const QPoint &pos)
 {
     for (auto nodeWidget : findChildren<NodeWidget *>())

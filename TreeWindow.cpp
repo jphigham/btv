@@ -99,13 +99,15 @@ void TreeWindow::createActions()
     connect(createAction, &QAction::triggered, this, &TreeWindow::create);
     addAction(createAction);
 
-    QAction *addStringAction = new QAction("Add string child", this);
-    connect(addStringAction, &QAction::triggered, this, &TreeWindow::addString);
-    addAction(addStringAction);
+    addStringAction_ = new QAction("Add string child", this);
+    connect(addStringAction_, &QAction::triggered, this, &TreeWindow::addString);
+    addStringAction_->setEnabled(false);
+    addAction(addStringAction_);
 
-    QAction *addDoubleAction = new QAction("Add float child", this);
-    connect(addDoubleAction, &QAction::triggered, this, &TreeWindow::addDouble);
-    addAction(addDoubleAction);
+    addDoubleAction_ = new QAction("Add float child", this);
+    connect(addDoubleAction_, &QAction::triggered, this, &TreeWindow::addDouble);
+    addDoubleAction_->setEnabled(false);
+    addAction(addDoubleAction_);
 
     QAction *saveAction = new QAction("&Save", this);
     saveAction->setShortcuts(QKeySequence::Save);
@@ -167,6 +169,9 @@ Node *TreeWindow::createTree()
 void TreeWindow::contextMenuEvent(QContextMenuEvent *e)
 {
     contextPos_ = QCursor::pos();
+    bool nodeAtPos = treeWidget_->nodeAtPos(contextPos_) != nullptr;
+    addStringAction_->setEnabled(nodeAtPos);
+    addDoubleAction_->setEnabled(nodeAtPos);
     QMenu contextMenu("btv", this);
     contextMenu.addActions(actions());
     contextMenu.exec(mapToGlobal(e->pos()));

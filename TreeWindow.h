@@ -4,6 +4,7 @@
 #include <QPoint>
 #include <QString>
 
+class QAction;
 class QCloseEvent;
 class QContextMenuEvent;
 
@@ -33,5 +34,7 @@ private:
     TreeWidget *treeWidget_;
     QString currentFile_;
     QPoint contextPos_;
+    QAction *addStringAction_;
+    QAction *addDoubleAction_;
     void createActions();
 };

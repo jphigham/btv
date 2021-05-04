@@ -9,9 +9,14 @@ class QPaintEvent;
 class DoubleSlider;
 class Node;
 
+//! NodeWidget
+/*! \class NodeWidget
+    \brief Display and edit the values of a Node
+ */
 class NodeWidget : public QWidget
 {
     Q_OBJECT
+
 public:
     static const int NODE_WIDTH = 100;
     static const int NODE_HEIGHT = 100;
@@ -20,8 +25,10 @@ public:
     virtual QSize sizeHint() const override { return QSize(NODE_WIDTH, NODE_HEIGHT); }
     const Node *node() const { return node_; }
     Node *node() { return node_; }
+
 protected:
     virtual void paintEvent(QPaintEvent *) override;
+
 private:
     Node *node_;
     QLabel *name_;

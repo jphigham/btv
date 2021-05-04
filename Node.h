@@ -7,6 +7,10 @@
 #include <QVariant>
 #include <QVector>
 
+//! Node
+/*! \class Node
+    \brief Represents a node with parent(s) and children
+ */
 class Node
 {
 public:
@@ -49,6 +53,7 @@ public:
     const Node *child(int c) const { return children_[c]; }
     Node *child(int c) { return children_[c]; }
     const QVector<Node *> children() const { return children_; }
+    QVector<Node *> children() { return children_; }
 
     void readJson(const QJsonObject &);
     void writeJson(QJsonObject &) const;

@@ -13,7 +13,16 @@ Node::Node(Node *parent)
         parent->addChild(this);
 }
 
-Node::~Node() {}
+Node::~Node()
+{
+    for (auto child : children_) {
+        delete child;
+    }
+    children_.clear();
+    for (auto parent : parents_) {
+        parent->children().remove(parent->children().indexOf(this));
+    }
+}
 
 void Node::addParent(Node *parent)
 {

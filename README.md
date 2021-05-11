@@ -53,7 +53,7 @@ $ ./btv
 #### Linux qmake build:
 
 ```
-$ <path_to_qt>/<qt_version>/<arch>/bin/qmake <path_to_source_dir>/btv/bt.pro
+$ <path_to_qt>/<qt_version>/<arch>/bin/qmake <path_to_source_dir>/btv/btv.pro
 $ make [release|debug]
 $ ./btv
 ```

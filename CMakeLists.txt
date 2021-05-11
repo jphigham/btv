@@ -27,6 +27,7 @@ add_executable(btv
     TreeWindow.cpp
 )
 
+target_compile_definitions(btv PRIVATE QT_DISABLE_DEPRECATED_BEFORE=0x050F00)
 target_link_libraries(btv Qt::Core)
 target_link_libraries(btv Qt::Gui)
 target_link_libraries(btv Qt::Widgets)
